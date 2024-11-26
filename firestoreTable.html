@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Firestore Table</title>
+        <style type="text/css">
+
+            table {
+                border-collapse: collapse ;
+            }
+            th {
+                border: 1px solid #cccccc;
+            }
+            tbody th {
+                padding: 4px 15px 4px 0px ;
+                text-align: right ;
+            }
+            tbody td {
+                border: 1px solid #cccccc ;
+                padding: 8px 15px 8px 15px ;
+                text-align: center ;
+            }
+    
+            .rotated-th {
+                /**
+                * Since the rotated text is taken out of the DOM flow (position: absolute), we
+                * need to artificially consume vertical space so that the rotated headers
+                * don't overlap with the content above the table.
+                */
+                height: 260px ;
+                position: relative ;
+            }
+            /**
+            * When an element is transform rotated, it still takes up the amount of space that
+            * it would have if not rotated. As such, I'm making the label "position: absolute"
+            * so that it doesn't take up any space ("absolute" takes it out of the DOM flow).
+            * Instead, I'm deferring the space allocation to the parent DIV.
+            */
+            .rotated-th__label {
+                bottom: 5px ;
+                left: 50% ;
+                position: absolute ;
+                transform: rotate( -90deg ) ;
+                transform-origin: center left ;
+                white-space: nowrap ;
+            }
+
+            #form {
+                padding-bottom: 1em;
+            }
+    
+        </style>
+    </head>
+
+    <body>
+        <h1>CL Produktionsprotokoll KWL 1</h1>
+        <form action="#" id="form">
+            <label for="day">Tag:</label>
+            <input type="date" id="day" name="day">
+            <input type="submit">
+          </form>
+          <p id="message">Keine Einträge an diesem Datum.</p>
+        <div>
+            <table>
+                <thead id="thead1">
+                    
+                </thead>
+                <tbody id="tbody1"></tbody>
+            </table>
+        </div>
+
+        <script type="module">
+            var tbody = document.getElementById("tbody1")
+            var thead = document.getElementById("thead1")
+            var message = document.getElementById("message")
+
+            function AddItemToTable(time,
+            att1,d1,att2,d2,att3,d3,att4,d4,att5,d5,att6,d6,att7,d7,
+            att8,d8,att9,d9,att10,d10,att11,d11,att12,d12,att13,d13,
+            att14,d14,att15,d15,att16,d16,att17,d17,att18,d18,att19,d19,
+            att20,d20,att21,d21,att22,d22,att23,d23,att24,d24,att25,d25,
+            att26,d26,att27,d27,att28,d28,att29,d29,att30,d30,
+            att31,d31,att32,d32,att33,index) {
+                let trow = document.createElement("tr");
+                let td1 = document.createElement("td");
+                let td2 = document.createElement("td");
+                let td3 = document.createElement("td");
+                let td4 = document.createElement("td");
+                let td5 = document.createElement("td");
+                let td6 = document.createElement("td");
+                let td7 = document.createElement("td");
+                let td8 = document.createElement("td");
+                let td9 = document.createElement("td");
+                let td10 = document.createElement("td");
+                let td11 = document.createElement("td");
+                let td12 = document.createElement("td");
+                let td13 = document.createElement("td");
+                let td14 = document.createElement("td");
+                let td15 = document.createElement("td");
+                let td16 = document.createElement("td");
+                let td17 = document.createElement("td");
+                let td18 = document.createElement("td");
+                let td19 = document.createElement("td");
+                let td20 = document.createElement("td");
+                let td21 = document.createElement("td");
+                let td22 = document.createElement("td");
+                let td23 = document.createElement("td");
+                let td24 = document.createElement("td");
+                let td25 = document.createElement("td");
+                let td26 = document.createElement("td");
+                let td27 = document.createElement("td");
+                let td28 = document.createElement("td");
+                let td29 = document.createElement("td");
+                let td30 = document.createElement("td");
+                let td31 = document.createElement("td");
+                let td32 = document.createElement("td");
+                let td33 = document.createElement("td");
+                let td34 = document.createElement("td");
+
+                if (index % 2 == 1) {
+                    td1.style.backgroundColor = "#F5F5F5";
+                    td2.style.backgroundColor = "#F5F5F5";
+                    td3.style.backgroundColor = "#F5F5F5";
+                    td4.style.backgroundColor = "#F5F5F5";
+                    td5.style.backgroundColor = "#F5F5F5";
+                    td6.style.backgroundColor = "#F5F5F5";
+                    td7.style.backgroundColor = "#F5F5F5";
+                    td8.style.backgroundColor = "#F5F5F5";
+                    td9.style.backgroundColor = "#F5F5F5";
+                    td10.style.backgroundColor = "#F5F5F5";
+                    td11.style.backgroundColor = "#F5F5F5";
+                    td12.style.backgroundColor = "#F5F5F5";
+                    td13.style.backgroundColor = "#F5F5F5";
+                    td14.style.backgroundColor = "#F5F5F5";
+                    td15.style.backgroundColor = "#F5F5F5";
+                    td16.style.backgroundColor = "#F5F5F5";
+                    td17.style.backgroundColor = "#F5F5F5";
+                    td18.style.backgroundColor = "#F5F5F5";
+                    td19.style.backgroundColor = "#F5F5F5";
+                    td20.style.backgroundColor = "#F5F5F5";
+                    td21.style.backgroundColor = "#F5F5F5";
+                    td22.style.backgroundColor = "#F5F5F5";
+                    td23.style.backgroundColor = "#F5F5F5";
+                    td24.style.backgroundColor = "#F5F5F5";
+                    td25.style.backgroundColor = "#F5F5F5";
+                    td26.style.backgroundColor = "#F5F5F5";
+                    td27.style.backgroundColor = "#F5F5F5";
+                    td28.style.backgroundColor = "#F5F5F5";
+                    td29.style.backgroundColor = "#F5F5F5";
+                    td30.style.backgroundColor = "#F5F5F5";
+                    td31.style.backgroundColor = "#F5F5F5";
+                    td32.style.backgroundColor = "#F5F5F5";
+                    td33.style.backgroundColor = "#F5F5F5";
+                    td34.style.backgroundColor = "#F5F5F5";
+                }
+
+                td1.innerHTML = time;
+                td2.innerHTML = att1 + "<br>" + "(" + d1.substring(d1.length-8) + ")";
+                td3.innerHTML = att2 + "<br>" + "(" + d2.substring(d2.length-8) + ")";
+                td4.innerHTML = att3 + "<br>" + "(" + d3.substring(d3.length-8) + ")";
+                td5.innerHTML = att4 + "<br>" + "(" + d4.substring(d4.length-8) + ")";
+                td6.innerHTML = att5 + "<br>" + "(" + d5.substring(d5.length-8) + ")";
+                td7.innerHTML = att6 + "<br>" + "(" + d6.substring(d6.length-8) + ")";
+                td8.innerHTML = att7 + "<br>" + "(" + d7.substring(d7.length-8) + ")";
+                td9.innerHTML = att8 + "<br>" + "(" + d8.substring(d8.length-8) + ")";
+                td10.innerHTML = att9 + "<br>" + "(" + d9.substring(d9.length-8) + ")";
+                td11.innerHTML = att10 + "<br>" + "(" + d10.substring(d10.length-8) + ")";
+                td12.innerHTML = att11 + "<br>" + "(" + d11.substring(d11.length-8) + ")";
+                td13.innerHTML = att12 + "<br>" + "(" + d12.substring(d12.length-8) + ")";
+                td14.innerHTML = att13 + "<br>" + "(" + d13.substring(d13.length-8) + ")";
+                td15.innerHTML = att14 + "<br>" + "(" + d14.substring(d14.length-8) + ")";
+                td16.innerHTML = att15 + "<br>" + "(" + d15.substring(d15.length-8) + ")";
+                td17.innerHTML = att16 + "<br>" + "(" + d16.substring(d16.length-8) + ")";
+                td18.innerHTML = att17 + "<br>" + "(" + d17.substring(d17.length-8) + ")";
+                td19.innerHTML = att18 + "<br>" + "(" + d18.substring(d18.length-8) + ")";
+                td20.innerHTML = att19 + "<br>" + "(" + d19.substring(d19.length-8) + ")";
+                td21.innerHTML = att20 + "<br>" + "(" + d20.substring(d20.length-8) + ")";
+                td22.innerHTML = att21 + "<br>" + "(" + d21.substring(d21.length-8) + ")";
+                td23.innerHTML = att22 + "<br>" + "(" + d22.substring(d22.length-8) + ")";
+                td24.innerHTML = att23 + "<br>" + "(" + d23.substring(d23.length-8) + ")";
+                td25.innerHTML = att24 + "<br>" + "(" + d24.substring(d24.length-8) + ")";
+                td26.innerHTML = att25 + "<br>" + "(" + d25.substring(d25.length-8) + ")";
+                td27.innerHTML = att26 + "<br>" + "(" + d26.substring(d26.length-8) + ")";
+                td28.innerHTML = att27 + "<br>" + "(" + d27.substring(d27.length-8) + ")";
+                td29.innerHTML = att28 + "<br>" + "(" + d28.substring(d28.length-8) + ")";
+                td30.innerHTML = att29 + "<br>" + "(" + d29.substring(d29.length-8) + ")";
+                td31.innerHTML = att30 + "<br>" + "(" + d30.substring(d30.length-8) + ")";
+                td32.innerHTML = att31 + "<br>" + "(" + d31.substring(d31.length-8) + ")";
+                td33.innerHTML = att32 + "<br>" + "(" + d32.substring(d32.length-8) + ")";
+                td34.innerHTML = att33;
+
+                trow.appendChild(td1);
+                trow.appendChild(td2);
+                trow.appendChild(td3);
+                trow.appendChild(td4);
+                trow.appendChild(td5);
+                trow.appendChild(td6);
+                trow.appendChild(td7);
+                trow.appendChild(td8);
+                trow.appendChild(td9);
+                trow.appendChild(td10);
+                trow.appendChild(td11);
+                trow.appendChild(td12);
+                trow.appendChild(td13);
+                trow.appendChild(td14);
+                trow.appendChild(td15);
+                trow.appendChild(td16);
+                trow.appendChild(td17);
+                trow.appendChild(td18);
+                trow.appendChild(td19);
+                trow.appendChild(td20);
+                trow.appendChild(td21);
+                trow.appendChild(td22);
+                trow.appendChild(td23);
+                trow.appendChild(td24);
+                trow.appendChild(td25);
+                trow.appendChild(td26);
+                trow.appendChild(td27);
+                trow.appendChild(td28);
+                trow.appendChild(td29);
+                trow.appendChild(td30);
+                trow.appendChild(td31);
+                trow.appendChild(td32);
+                trow.appendChild(td33);
+                trow.appendChild(td34);
+
+                tbody.appendChild(trow);
+            }
+
+            function AddAllItemsToTable(dataPoint, time){
+                tbody.innerHTML="";
+                message.style.display = "none"
+                if (dataPoint.length == 0) {
+                    thead.innerHTML = ""
+                    message.style.display = "block"
+                } else {
+                    thead.innerHTML = `
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Zeit
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                T405
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                900
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Anderes Getreidemahlprodukt
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Zusatzdosierung
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Verwendtes Ei
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Grießmenge
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Einstellung Wasser Korrekturwert
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Wassertemperatur
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Vakuum
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Vakuumpumpe
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Umdr. Pressschnecke
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Temp. Kopf
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Temp. Zylinder
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Drehzahl Formbelüftung
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Druck Pressschnecke
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Messergeschwindigkeit
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Geschwindigkeit SVT
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Temperatur
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Abluft
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Durchlaufzeit
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Temperatur
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Feuchte
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Durchlaufzeit
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Temperatur
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Feuchte
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Temperatur
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Optische Kontrolle
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Endfeuchte
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Temperatur Vorlauf
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Temperatur Rücklauf
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Heizung/Kühlung
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Einlauf Silo Nr.
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="rotated-th">
+                            <span class="rotated-th__label">
+                                Bemerkungen
+                            </span>
+                        </div>
+                    </th>
+                    `
+                }
+                dataPoint.forEach((element, index) => {
+                    AddItemToTable(
+                        time[index],
+                        element["T405"], 
+                        element["T405_date"], 
+                        element["900"], 
+                        element["900_date"], 
+                        element["Anderes Getreidemahlprodukt"], 
+                        element["Anderes Getreidemahlprodukt_date"], 
+                        element["Zusatzdosierung"], 
+                        element["Zusatzdosierung_date"], 
+                        element["Verwendetes Ei"],
+                        element["Verwendetes Ei_date"],
+                        element["Grießmenge"],
+                        element["Grießmenge_date"],
+                        element["Einstellung Wasser Korrekturwert"],
+                        element["Einstellung Wasser Korrekturwert_date"],
+                        element["Wassertemperatur"],
+                        element["Wassertemperatur_date"],
+                        element["Vakuum"],
+                        element["Vakuum_date"],
+                        element["Vakuumpumpe i.O."],
+                        element["Vakuumpumpe i.O._date"],
+                        element["Umdr. Pressschnecke"],
+                        element["Umdr. Pressschnecke_date"],
+                        element["Temp. Kopf"],
+                        element["Temp. Kopf_date"],
+                        element["Temp. Zylinder"],
+                        element["Temp. Zylinder_date"],
+                        element["Drehzahl Formbelüftung"],
+                        element["Drehzahl Formbelüftung_date"],
+                        element["Druck Pressschnecke"],
+                        element["Druck Pressschnecke_date"],
+                        element["Messergeschwindigkeit"],
+                        element["Messergeschwindigkeit_date"],
+                        element["Geschwindigkeit SVT"],
+                        element["Geschwindigkeit SVT_date"],
+                        element["Temperatur SVT"],
+                        element["Temperatur SVT_date"],
+                        element["Abluft SVT"],
+                        element["Abluft SVT_date"],
+                        element["Durchlaufzeit Vortrockner"],
+                        element["Durchlaufzeit Vortrockner_date"],
+                        element["Temperatur Vortrockner"],
+                        element["Temperatur Vortrockner_date"],
+                        element["Feuchte Vortrockner"],
+                        element["Feuchte Vortrockner_date"],
+                        element["Durchlaufzeit Endtrockner"],
+                        element["Durchlaufzeit Endtrockner_date"],
+                        element["Temperatur Endtrockner"],
+                        element["Temperatur Endtrockner_date"],
+                        element["Feuchte Endtrockner"],
+                        element["Feuchte Endtrockner_date"],
+                        element["Temperatur Kühler"],
+                        element["Temperatur Kühler_date"],
+                        element["Optische Kontrolle i.O."],
+                        element["Optische Kontrolle i.O._date"],
+                        element["Endfeuchte"],
+                        element["Endfeuchte_date"],
+                        element["Temperatur Vorlauf"],
+                        element["Temperatur Vorlauf_date"],
+                        element["Temperatur Rücklauf"],
+                        element["Temperatur Rücklauf_date"],
+                        element["Heizung/Kühlung i.O."],
+                        element["Heizung/Kühlung i.O._date"],
+                        element["Einlauf Silo Nr."],
+                        element["Einlauf Silo Nr._date"],
+                        element["Bemerkungen"],
+                        index);
+                });
+            }
+
+            /* IMPORTS + CONFIGURATION */
+
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyAEbGH1jDCb9p5EOTmcMoDRieXy5GUUJdc",
+                authDomain: "protokollapp-b984c.firebaseapp.com",
+                projectId: "protokollapp-b984c",
+                storageBucket: "protokollapp-b984c.firebasestorage.app",
+                messagingSenderId: "355029692590",
+                appId: "1:355029692590:web:55329fbd82f57a683afd3f"
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+
+            import {
+                getFirestore, doc, getDoc, getDocs, onSnapshot, collection
+            }
+            from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+            const db = getFirestore();
+
+            /* GET ALL DATA */
+
+            async function GetAllDataOnce(e){
+                e.preventDefault()
+                var date = document.getElementById("day").value
+                var day = date.substring(8, 10) + "." + date.substring(5, 7) + "."
+                var year = date.substring(0, 4)
+
+                const querySnapshot = await getDocs(collection(db, "CL Produktionsprotokoll KWL 1", year, day));
+
+                var data = [];
+                var ids = []
+
+                querySnapshot.forEach(doc => {
+                    console.log(doc);
+
+                    ids.push(doc.id)
+                    data.push(doc.data());
+                });
+
+                AddAllItemsToTable(data, ids);
+            }
+
+            async function GetAllDataOnceStart(){
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = String(today.getFullYear());
+
+                const querySnapshot = await getDocs(collection(db, "CL Produktionsprotokoll KWL 1", yyyy, dd + "." + mm + "."));
+
+                var data = [];
+                var ids = []
+
+                querySnapshot.forEach(doc => {
+                    console.log(doc);
+
+                    ids.push(doc.id)
+                    data.push(doc.data());
+                });
+
+                AddAllItemsToTable(data, ids);
+            }
+
+            function startFunction() {
+                document.getElementById("form").onsubmit = GetAllDataOnce
+                GetAllDataOnceStart()
+            }
+            window.onload = startFunction;
+
+        </script>
+    </body>
+</html>
